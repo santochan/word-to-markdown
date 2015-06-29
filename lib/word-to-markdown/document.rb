@@ -5,9 +5,11 @@ class WordToMarkdown
 
     attr_reader :path, :raw_html, :tmpdir
 
-    def initialize(path, tmpdir = nil)
+    def initialize(path, options)
       @path = File.expand_path path, Dir.pwd
-      @tmpdir = tmpdir || Dir.mktmpdir
+      @options = options
+      @tmpdir = options[:tmpdir] || Dir.mktmpdir
+
       raise NotFoundError, "File #{@path} does not exist" unless File.exist?(@path)
     end
 
@@ -17,7 +19,7 @@ class WordToMarkdown
 
     def tree
       @tree ||= begin
-        tree = Nokogiri::HTML(normalized_html)
+        tree = Nokogiri::HTML(@options[:normalize] ? normalized_html : raw_html)
         tree.css("title").remove
         tree
       end

@@ -29,8 +29,8 @@ class WordToMarkdown
   # input - a HTML string or path to an HTML file
   #
   # Returns the WordToMarkdown object
-  def initialize(path, tmpdir = nil)
-    @document = WordToMarkdown::Document.new path, tmpdir
+  def initialize(path, options={normalize: true})
+    @document = WordToMarkdown::Document.new path, options
     @converter = WordToMarkdown::Converter.new @document
     converter.convert!
   end
