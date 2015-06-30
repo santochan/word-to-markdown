@@ -5,7 +5,7 @@ class WordToMarkdown
 
     attr_reader :path, :raw_html, :tmpdir
 
-    def initialize(path, options)
+    def initialize(path, options={normalize: true})
       @path = File.expand_path path, Dir.pwd
       @options = options
       @tmpdir = options[:tmpdir] || Dir.mktmpdir
