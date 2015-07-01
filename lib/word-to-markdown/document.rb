@@ -3,7 +3,7 @@ class WordToMarkdown
   class Document
     class NotFoundError < StandardError; end
 
-    attr_reader :path, :raw_html, :tmpdir
+    attr_reader :path, :raw_html, :tmpdir, :plain_txt
 
     def initialize(path, options={normalize: true})
       @path = File.expand_path path, Dir.pwd
@@ -46,6 +46,17 @@ class WordToMarkdown
         match[1].sub("macintosh", "MacRoman")
       else
         "UTF-8"
+      end
+    end
+
+    def plain_text
+      @plain_text ||= begin
+        WordToMarkdown::run_command '--headless', '--convert-to', 'txt:Text', path, '--outdir', tmpdir
+        dest_filename = File.basename(path).gsub(/#{Regexp.escape(extension)}$/, ".txt")
+        txt_path = File.expand_path(dest_filename, tmpdir)
+        txt = File.read txt_path
+        File.delete txt_path
+        txt
       end
     end
 
