@@ -52,7 +52,7 @@ class WordToMarkdown
 
     def plain_text
       @plain_text ||= begin
-        WordToMarkdown::run_command '--headless', '--convert-to', '"txt:Text (encoded):UTF8"', path, '--outdir', tmpdir
+        WordToMarkdown::run_command '--headless', '--convert-to', 'txt:Text (encoded):UTF8', path, '--outdir', tmpdir
         dest_filename = File.basename(path).gsub(/#{Regexp.escape(extension)}$/, ".txt")
         txt_path = File.expand_path(dest_filename, tmpdir)
         txt = File.read txt_path, encoding: 'utf-8'
