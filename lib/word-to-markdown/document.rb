@@ -54,7 +54,7 @@ class WordToMarkdown
         WordToMarkdown::run_command '--headless', '--convert-to', 'txt:Text', path, '--outdir', tmpdir
         dest_filename = File.basename(path).gsub(/#{Regexp.escape(extension)}$/, ".txt")
         txt_path = File.expand_path(dest_filename, tmpdir)
-        txt = File.read txt_path
+        txt = File.read txt_path, encoding: 'utf-8'
         File.delete txt_path
         txt
       end
